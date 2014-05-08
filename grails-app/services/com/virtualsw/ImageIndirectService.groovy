@@ -9,7 +9,7 @@ class ImageIndirectService {
     def grailsApplication
     def grailsLinkGenerator
 
-    String fullPath(String category = null) {
+    /*String fullPath(String category = null) {
 
         String returnPath = grailsApplication.config.imageindirect.basePath
         String categoryUrl = category ? grailsApplication.config.imageindirect.category."${category}" : null
@@ -22,24 +22,24 @@ class ImageIndirectService {
             }
         }
         return returnPath
-    }
-    String fullDirPath(String fileDir = null, String category = null) {
+    }*/
+    String fullDirPath(String category = null) {
 
         String returnPath = grailsApplication.config.imageindirect.basePath
-        String categoryUrl = category ? grailsApplication.config.imageindirect.category."${category}" : null
+//        String categoryUrl = category ? grailsApplication.config.imageindirect.category."${category}" : null
 
-        if (categoryUrl) {
+        /*if (categoryUrl) {
             if (categoryUrl.startsWith("/")) {
                 returnPath = categoryUrl
             } else {
                 returnPath += "/${categoryUrl}"
             }
-        }
-        if (fileDir) {
-            if (fileDir.startsWith("/")) {
-                returnPath = returnPath+fileDir
+        }*/
+        if (category) {
+            if (category.startsWith("/")) {
+                returnPath = returnPath+category
             } else {
-                returnPath = returnPath+"/${fileDir}"
+                returnPath = returnPath+"/${category}"
             }
         }
 
@@ -57,18 +57,14 @@ class ImageIndirectService {
         multipartFile.transferTo(file)
         return file
     }*/
-    File storeFile(MultipartFile multipartFile, String desiredName = null, String fileDir = null, String category = null) {
+    File storeFile(MultipartFile multipartFile, String desiredName = null, String category = null) {
         if (!multipartFile) {
             return null
         }
 
-        String storagePath = ""
-        if(fileDir){
-            storagePath = fullDirPath(fileDir, category)
-        }else {
-            storagePath = fullPath(category)
-        }
-        String physicalFileName = desiredName ?: multipartFile.originalFilename.replaceAll('','_')
+        String storagePath = fullDirPath(category)
+
+        String physicalFileName = desiredName ? desiredName.replaceAll(' ','_') : multipartFile.originalFilename.replaceAll(' ','_')
         File dirPath
         try{
             dirPath = new File(storagePath)
@@ -85,12 +81,13 @@ class ImageIndirectService {
         return dirPath
     }
 
-    /*String imageLink( String imageName, String category) {
+    String imageLink( String imageName, String category) {
         grailsLinkGenerator.link(controller: 'imageIndirect' , params: [imageName: imageName, category:category] )
-    }*/
-    String imageLink( String imageName, String category, String fileDir) {
-        grailsLinkGenerator.link(controller: 'imageIndirect' , params: [imageName: imageName, category:category,fileDir:fileDir] )
     }
+    /*String imageLink2( String imageName, String category, String fileDir) {
+        println("called it")
+        grailsLinkGenerator.link(controller: 'imageIndirect' , params: [imageName: imageName, category:category,fileDir:fileDir] )
+    }*/
 
     String lastResortImage() {
         grailsApplication.config.imageindirect.nophoto

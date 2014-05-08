@@ -9,7 +9,6 @@ class ImageIndirectTagLib {
     def imageTag = { attrs ->
         def imagename = attrs.'indirect-imagename'
         def category = attrs.'indirect-category'
-        def filedir = attrs.'indirect-filedir'
 
         def name = attrs.name
 
@@ -58,7 +57,7 @@ class ImageIndirectTagLib {
 
         //
         // String link = grailsLinkGenerator.link(controller: 'imageIndirect' , params: [imageName: imagename, category:category] )
-        String link =imageIndirectService.imageLink( imagename , category, filedir)
+        String link =imageIndirectService.imageLink( imagename , category)
 
         String imgAttrs = ""
 
