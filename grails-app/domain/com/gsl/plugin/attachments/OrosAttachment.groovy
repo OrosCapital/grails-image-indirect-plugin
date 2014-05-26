@@ -21,7 +21,6 @@ class OrosAttachment {
 
         description(nullable: true)
         fileDir(nullable: true)
-        remarks(nullable: true)
         caption(nullable: true)
         remarks(nullable: true)
     }

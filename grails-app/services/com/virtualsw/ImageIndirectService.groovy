@@ -72,6 +72,7 @@ class ImageIndirectService {
                 dirPath.mkdirs()
             }
             dirPath = new File(storagePath, physicalFileName)
+            println "dirPath " + dirPath
             multipartFile.transferTo(dirPath)
         }catch (Exception ex){
             ex.printStackTrace()
